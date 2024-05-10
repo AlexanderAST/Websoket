@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  websocket-chat:
+    build: ./
+    command: ["./websocket"]
+    ports:
+      - "8080:8080"

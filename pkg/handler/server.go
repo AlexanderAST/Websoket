@@ -1,27 +1,33 @@
 package handler
 
 import (
+	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"net/http"
 )
 
-type Config struct {
-	BindAddr string `yaml:"bind_addr"`
-	LogLevel string `yaml:"log_level"`
+type server struct {
+	router *mux.Router
+	logger *logrus.Logger
 }
 
-func NewConfig() *Config {
-	return &Config{
-		BindAddr: ":8080",
-		LogLevel: "debug",
+func newServer() *server {
+	s := &server{
+		router: mux.NewRouter(),
+		logger: logrus.New(),
 	}
+
+	s.configureRouter()
+
+	return s
 }
 
-func Start(config *Config) error {
+func Start() error {
 
 	srv := newServer()
 
 	logrus.Info("Server started")
 
-	return http.ListenAndServe(config.BindAddr, srv)
+	return http.ListenAndServe(viper.GetString("port"), srv)
 }

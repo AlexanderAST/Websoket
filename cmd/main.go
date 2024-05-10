@@ -12,9 +12,8 @@ func main() {
 	if err := initConfig(); err != nil {
 		logrus.Fatalf("Cannot init config: %s", err.Error())
 	}
-	conf := Upserver.NewConfig()
 
-	if err := Upserver.Start(conf); err != nil {
+	if err := Upserver.Start(); err != nil {
 		logrus.Fatalf("cannot start server %s", err.Error())
 	}
 
